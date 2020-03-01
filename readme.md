@@ -24,7 +24,7 @@ I recommend that you at least skim the scripts in this repo to understand what i
 
 
 ### Through Docker
-> I have not tested this yet.
+> I have not tested this yet. On other distros than arch.
 
  * make sure you have `docker` installed
  * run `./docker-setup.sh`
