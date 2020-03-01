@@ -83,8 +83,10 @@ add_aur https://aur.archlinux.org/libscrypt-git.git
 add_aur https://aur.archlinux.org/bcachefs-tools-git.git
 add_aur https://aur.archlinux.org/linux-bcachefs-git.git
 
+
 printf "\nBuilding the ISO\n"
 echo "====================="
 
+sudo cp -r $PACKAGE_DIR $WORKDIR/airootfs
 cd $WORKDIR
 sudo ./build.sh -v

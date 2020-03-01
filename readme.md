@@ -16,6 +16,7 @@ I recommend that you at least skim the scripts in this repo to understand what i
      the prompt comes up. I will add a variable to the `make_iso.sh`
      script when I come around to it...
 * In the end, the ISO can be found under `archlive/out`
+* The live ISO will have the built bcachefs packages in the root directory.
 
 ### On Arch Linux
  * make sure you have the following installed: `archiso sudo git base-devel bash`
