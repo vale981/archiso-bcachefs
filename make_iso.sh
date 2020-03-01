@@ -3,6 +3,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd $DIR
 
 ARCH=x86_64
+KERNEL_ARCH=
 REPO_DIR=$DIR/repo/$ARCH
 REPO=$REPO_DIR/repo.db.tar.gz
 PACKAGE_DIR=$DIR/packages
