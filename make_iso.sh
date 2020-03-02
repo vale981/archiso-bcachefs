@@ -24,7 +24,7 @@ cp -r /usr/share/archiso/configs/releng/ $WORKDIR
 # EOF
 
 echo "Patching build.sh"
-sed -i 's/vmlinuz-linux/vmlinuz-linux-bcachefs-git/' archlive/build.sh
+sed -i 's/vmlinuz-linux/vmlinuz-linux-bcachefs-git/' $WORKDIR/build.sh
 
 echo "Adding Packages"
 cat >> $WORKDIR/packages.x86_64 <<EOF
