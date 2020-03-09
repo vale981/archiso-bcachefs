@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd $DIR
 
@@ -15,13 +17,6 @@ echo "============"
 echo "Removing $WORKDIR"
 sudo rm -rf $WORKDIR
 cp -r /usr/share/archiso/configs/releng/ $WORKDIR
-
-# echo "Setting up mkinitcpio.conf"
-# sed -i 's/\(HOOKS=(.*\))/\1 bcachefs)/' $WORKDIR/mkinitcpio.conf
-# cat >> $WORKDIR/mkinitcpio.conf <<EOF
-# MODULES=(bcachefs)
-# BINARIES=(bcachefs)
-# EOF
 
 echo "Patching build.sh"
 sed -i 's/vmlinuz-linux/vmlinuz-linux-bcachefs-git/' $WORKDIR/build.sh
@@ -59,27 +54,39 @@ echo "====================="
 function add_aur {
     CURRDIR=$(pwd)
     URL=$1
+    INSTALL=$2
     NAME=$(echo $URL | sed -r 's/^.*\.org\/(.*).git$/\1/')
 
     cd $PACKAGE_DIR
+    shopt -s nullglob
 
-    if [ ! -d "$NAME" ]; then
+    BUILT=( $NAME/*.pkg.* )
+    if (( ${#BUILT[@]} )); then
+        echo "$NAME already built!"
+        cd $NAME
+    else
+        echo "Building $NAME"
+        echo "=============="
+
+        rm -rf $NAME
         git clone $URL
         cd $NAME
-        makepkg -s
-    else
-        cd $NAME
+        makepkg -sc
     fi
 
+    if [ "$INSTALL" = true ]; then
+        sudo pacman -U *.pkg.* --noconfirm --needed
+    fi
 
-    repo-add $REPO *.pkg.tar.xz
-    cp *.pkg.tar.xz $REPO_DIR
+    repo-add $REPO *.pkg.*
+    cp *.pkg.* $REPO_DIR
 
     # restore
     cd $CURRDIR
+    shopt -u nullglob
 }
 
-add_aur https://aur.archlinux.org/libscrypt-git.git
+add_aur https://aur.archlinux.org/libscrypt-git.git true
 add_aur https://aur.archlinux.org/bcachefs-tools-git.git
 add_aur https://aur.archlinux.org/linux-bcachefs-git.git
 
