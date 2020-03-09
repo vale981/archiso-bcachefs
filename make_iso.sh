@@ -6,10 +6,18 @@ cd $DIR
 
 ARCH=x86_64
 KERNEL_ARCH=
-REPO_DIR=$DIR/repo/$ARCH
+REPO_BASE=$(sudo mktemp -d /var/XXXX-repo)
+REPO_DIR=$REPO_BASE/$ARCH
 REPO=$REPO_DIR/repo.db.tar.gz
 PACKAGE_DIR=$DIR/packages
 WORKDIR=$DIR/archlive/
+
+echo $REPO_DIR
+function cleanup {
+    sudo rm -r $REPO_BASE
+}
+
+trap cleanup EXIT
 
 echo "Init Workdir"
 echo "============"
@@ -40,9 +48,10 @@ EOF
 echo "Init Repo"
 echo "========="
 
-mkdir -p $REPO_DIR
+sudo mkdir -p $REPO_DIR
 mkdir -p $PACKAGE_DIR
-repo-add $REPO
+sudo ls -l $REPO_BASE
+sudo repo-add $REPO
 
 printf "\nBuilding AUR Packages\n"
 echo "====================="
@@ -78,8 +87,8 @@ function add_aur {
         sudo pacman -U *.pkg.* --noconfirm --needed
     fi
 
-    repo-add $REPO *.pkg.*
-    cp *.pkg.* $REPO_DIR
+    sudo repo-add $REPO *.pkg.*
+    sudo cp *.pkg.* $REPO_DIR
 
     # restore
     cd $CURRDIR
@@ -94,6 +103,8 @@ add_aur https://aur.archlinux.org/linux-bcachefs-git.git
 printf "\nBuilding the ISO\n"
 echo "====================="
 
-sudo cp -r $PACKAGE_DIR $WORKDIR/airootfs
+sudo mkdir -p $WORKDIR/airootfs/$REPO_DIR
+sudo cp -r $REPO_DIR/* $WORKDIR/airootfs/$REPO_DIR
+
 cd $WORKDIR
 sudo ./build.sh -v
