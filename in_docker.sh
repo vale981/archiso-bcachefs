@@ -17,5 +17,6 @@ EOF
 echo "Set disable_coredump false" > /etc/sudo.conf
 
 # make the bacon
+su archiso
 cd /archiso
 bash make_iso.sh

@@ -68,10 +68,10 @@ function add_aur {
         echo "Building $NAME"
         echo "=============="
 
-        rm -rf $NAME
+        sudo rm -rf $NAME
         git clone $URL
         cd $NAME
-        makepkg -sc
+        makepkg -sc --noconfirm
     fi
 
     if [ "$INSTALL" = true ]; then
