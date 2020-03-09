@@ -12,7 +12,6 @@ REPO=$REPO_DIR/repo.db.tar.gz
 PACKAGE_DIR=$DIR/packages
 WORKDIR=$DIR/archlive/
 
-echo $REPO_DIR
 function cleanup {
     sudo rm -r $REPO_BASE
 }
@@ -103,8 +102,8 @@ add_aur https://aur.archlinux.org/linux-bcachefs-git.git
 printf "\nBuilding the ISO\n"
 echo "====================="
 
-sudo mkdir -p $WORKDIR/airootfs/$REPO_DIR
-sudo cp -r $REPO_DIR/* $WORKDIR/airootfs/$REPO_DIR
+sudo mkdir -p $WORKDIR/airootfs/$REPO_BASE
+sudo cp -r $REPO_DIR $WORKDIR/airootfs/$REPO_BASE
 
 cd $WORKDIR
 sudo ./build.sh -v
