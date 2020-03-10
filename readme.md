@@ -31,3 +31,13 @@ I recommend that you at least skim the scripts in this repo to understand what i
  * run `./docker-setup.sh`
    * This will create an ephemeral, **privileged** docker container to
      provide an arch environment and run `./make_iso.sh`
+
+## Installing Arch Linux on Bchachefs
+
+Just boot the resulting ISO and follow the installation as usual.
+There are (at least) two (trivial) points to be considered however:
+  1. After having formated your disk with `bcachefs create` you must
+     mount it with `mount -t bcachefs`. In other words: You have to
+     specify the fs type manually.
+  2. When installing the base system with `pacstrap`, specify
+     `linux-bcachefs-git` instead of `linux`.
