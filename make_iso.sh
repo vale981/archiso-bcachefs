@@ -4,6 +4,9 @@ set -e
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd $DIR
 
+ISO_NAME="Arch Linux with bcachefs support."
+ISO_PUBLISHER="Valentin Boettcher <hiro at protagon.space>"
+
 ARCH=x86_64
 KERNEL_ARCH=
 REPO_BASE=$(sudo mktemp -d /var/XXXX-repo)
@@ -106,4 +109,4 @@ sudo mkdir -p $WORKDIR/airootfs/$REPO_BASE
 sudo cp -r $REPO_DIR $WORKDIR/airootfs/$REPO_BASE
 
 cd $WORKDIR
-sudo ./build.sh -v
+sudo ./build.sh -v -N $ISO_NAME -P $ISO_PUBLISHER
