@@ -1,3 +1,5 @@
+# You can find a maintained version over at: https://github.com/abelian424/archiso-bcachefs-mainline
+
 # Archlinux Live with Bcachefs
 
 The scripts in this repo can be used to obtain an `Arch Linux`
